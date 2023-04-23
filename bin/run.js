@@ -55,10 +55,13 @@ class BelegExporter {
     let hasMorePages = true;
     let numExports = 0;
     const download_path_tmp = path.join(__dirname, "..", "tmp-downloads");
-    const download_path = path.join(__dirname, "..", "downloads");
+    const download_path = path.join(__dirname, "..", "downloads", "migros");
 
     if (!fs.existsSync(download_path)) {
-      fs.mkdirSync(download_path);
+      fs.mkdirSync(download_path, { recursive: true });
+    }
+    if (!fs.existsSync(download_path_tmp)) {
+      fs.mkdirSync(download_path_tmp, { recursive: true });
     }
     await fsExtra.emptyDirSync(download_path_tmp);
 
@@ -122,9 +125,12 @@ class BelegExporter {
     let numExports = 0;
     let pageNr = 0;
     const download_path_tmp = path.join(__dirname, "..", "tmp-downloads");
-    const download_path = path.join(__dirname, "..", "downloads");
+    const download_path = path.join(__dirname, "..", "downloads", "coop");
     if (!fs.existsSync(download_path)) {
-      fs.mkdirSync(download_path);
+      fs.mkdirSync(download_path, { recursive: true });
+    }
+    if (!fs.existsSync(download_path_tmp)) {
+      fs.mkdirSync(download_path_tmp, { recursive: true });
     }
     await fsExtra.emptyDirSync(download_path_tmp);
 

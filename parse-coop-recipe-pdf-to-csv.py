@@ -5,16 +5,26 @@ import numpy as np
 import pandas as pd
 from tika import parser
 
-file = sys.argv[1] #if len(sys.argv) > 2 else "/Users/timbernhard/Privat/Programming/OpenSource-Contributions/export-all-belege/tmp-downloads/receipt_9900150890603042300002101409.pdf"
+file = sys.argv[1] if len(
+    sys.argv) > 2 else "/Users/timbernhard/Downloads/receipt_9900170316008102200035951979.pdf"
 assert(file is not None)
 # file = r"/Users/timbernhard/Downloads/receipt_9900170316008102200035951979.pdf"
 
 rawText = parser.from_file(file)
 data = rawText['content'].splitlines()
 
+filiale = ""
 lineIdx = 0
+while (lineIdx < len(data) and data[lineIdx] == ""):
+    lineIdx += 1
+if (lineIdx >= len(data)):
+    raise ValueError("Failed to arrive at article list")
+filiale = data[lineIdx]
 while (lineIdx < len(data) and not data[lineIdx].startswith("Artikel")):
     lineIdx += 1
+
+if (lineIdx >= len(data)):
+    raise ValueError("Failed to arrive at article list")
 
 
 def split_line(line):
@@ -88,17 +98,29 @@ while (lineIdx < len(data) and (data[lineIdx].startswith("Rabatt") or data[lineI
         processed_data_idx += 1
     lineIdx += 1
 
+df = pd.DataFrame(processed_data)
+df.rename(columns={"Total": "Umsatz"})
+df["Filiale"] = filiale
+
 date = ""
 while (lineIdx < len(data)):
     line = split_line(data[lineIdx])
     if (len(line) > 0):
-      search = re.search(r"(\d{2})\.(\d{2}).(\d{2,4})", line[0])
-      if (search is not None):
-          date = "-" + search.group(0)
-          break
+        date_search = re.search(r"(\d{2})\.(\d{2}).(\d{2,4})", line[0])
+        if (date_search is not None):
+            df["Datum"] = date_search.group(0)
+            date = "-" + date_search.group(0)
+        #   break
+        time_search = re.search(r"(\d{2}):(\d{2})", line[0])
+        if (time_search is not None):
+            time = time_search.group(0)
+            df["Zeit"] = time
+        if (line[0] == "Total" and line[1] == "CHF"):
+            df["Total"] = line[2]
+        if (data[lineIdx].startswith("#") and data[lineIdx].endswith("#")):
+            df["Transaktionsnummer"] = data[lineIdx]
     lineIdx += 1
 
-df = pd.DataFrame(processed_data)
 target_file = file.replace(".pdf", "{}.csv".format(date))
 df.to_csv(target_file)
 
