@@ -1,0 +1,26 @@
+{
+  "name": "export-all-belege",
+  "version": "1.0.0",
+  "description": "Export all Belege as CSV from Migros and Coop",
+  "main": "run.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/GenieTim/export-all-belege"
+  },
+  "author": "Tim Bernhard",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10",
+    "cli-ux": "^5.4.10",
+    "msal": "^1.4.0",
+    "puppeteer": "^5.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.7.0",
+    "eslint-config-oclif": "^3.1",
+    "globby": "^11.0.1"
+  }
+}
