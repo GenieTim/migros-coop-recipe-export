@@ -13,7 +13,7 @@ class BelegExporter {
   async run() {
     this.logger = console;
     try {
-      // await this.handleMigros();
+      await this.handleMigros();
       await this.handleCoop();
     } catch (err) {
       this.logger.error(err);

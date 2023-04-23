@@ -14,13 +14,13 @@
   "license": "MIT",
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",
-    "cli-ux": "^5.4.10",
+    "cli-ux": "^6.0.9",
     "msal": "^1.4.0",
-    "puppeteer": "^5.2.1"
+    "puppeteer": "^19.10.1"
   },
   "devDependencies": {
-    "eslint": "^7.7.0",
-    "eslint-config-oclif": "^3.1",
-    "globby": "^11.0.1"
+    "eslint": "^8.39.0",
+    "eslint-config-oclif": "^4.0.0",
+    "globby": "^13.1.4"
   }
 }
