@@ -67,7 +67,7 @@ class BelegExporter {
 
     while (hasMorePages) {
       // download the CSV for this page
-      await this.driver._client.send("Page.setDownloadBehavior", {
+      await this.driver.client().send("Page.setDownloadBehavior", {
         behavior: "allow",
         downloadPath: download_path_tmp,
       });
